@@ -138,7 +138,7 @@ public void ConVarCallBack(QueryCookie cookie, int client, ConVarQueryResult res
 public void GivePlayerGloves(int client)
 {
 	int playerTeam = GetClientTeam(client);
-	if(g_iGloves[client][playerTeam] != 0)
+	if((g_iGloves[client][playerTeam] != 0) && (CheckGloveAccess(client)))
 	{
 		int ent = GetEntPropEnt(client, Prop_Send, "m_hMyWearables");
 		if(ent != -1)
@@ -177,4 +177,10 @@ public void GivePlayerGloves(int client)
 			if(g_iEnableWorldModel) SetEntProp(client, Prop_Send, "m_nBody", 1);
 		}
 	}
+}
+
+
+public bool CheckGloveAccess(int client)
+{
+	return(CheckCommandAccess(client, "sm_gloves", ADMFLAG_CUSTOM6, false) || CheckCommandAccess(client, "sm_glove", ADMFLAG_CUSTOM6, false) || CheckCommandAccess(client, "sm_eldiven", ADMFLAG_CUSTOM6, false));
 }
